@@ -1,8 +1,22 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
+import sanityClient from "../sanity";
+import imageUrlBuilder from "@sanity/image-url";
 
+const builder = imageUrlBuilder(sanityClient);
+
+function urlFor(source) {
+  return builder.image(source);
+}
 const Categories = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    sanityClient.fetch(`*[_type == "category"]`).then((data) => {
+      setCategories(data);
+    });
+  }, []);
   return (
     <ScrollView
       horizontal
@@ -13,26 +27,15 @@ const Categories = () => {
       }}
     >
       {/* CategorieCard */}
-      <CategoryCard
-        title="testing 1"
-        imgUrl="https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/47a75f43-40d7-4012-a3fa-e8ff66407ff4-retina-large.jpg"
-      />
-      <CategoryCard
-        title="testing 2"
-        imgUrl="https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/47a75f43-40d7-4012-a3fa-e8ff66407ff4-retina-large.jpg"
-      />
-      <CategoryCard
-        title="testing 3"
-        imgUrl="https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/47a75f43-40d7-4012-a3fa-e8ff66407ff4-retina-large.jpg"
-      />
-      <CategoryCard
-        title="testing 3"
-        imgUrl="https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/47a75f43-40d7-4012-a3fa-e8ff66407ff4-retina-large.jpg"
-      />
-      <CategoryCard
-        title="testing 3"
-        imgUrl="https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/47a75f43-40d7-4012-a3fa-e8ff66407ff4-retina-large.jpg"
-      />
+      {categories.map((category) => (
+        <CategoryCard
+          key={category._id}
+          title={category.title}
+          imgUrl={
+            category.image ? urlFor(category.image).width(200).url() : null
+          }
+        />
+      ))}
     </ScrollView>
   );
 };
