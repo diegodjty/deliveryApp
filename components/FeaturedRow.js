@@ -22,7 +22,6 @@ const FeaturedRow = ({ id, title, description }) => {
         setRestaurants(data?.restaurants);
       });
   }, [id]);
-  console.log(restaurants);
   return (
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
@@ -43,7 +42,7 @@ const FeaturedRow = ({ id, title, description }) => {
             key={restaurant._id}
             id={restaurant._id}
             imgUrl={restaurant.image}
-            title={restaurant.title}
+            title={restaurant.name}
             rating={restaurant.rating}
             genre={restaurant.type?.name}
             address={restaurant.address}

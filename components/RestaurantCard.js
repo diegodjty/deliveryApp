@@ -4,6 +4,7 @@ import { StarIcon } from "react-native-heroicons/solid";
 import { MapPinIcon } from "react-native-heroicons/outline";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../sanity";
+import { useNavigation } from "@react-navigation/native";
 
 const builder = imageUrlBuilder(sanityClient);
 
@@ -23,8 +24,27 @@ const RestaurantCard = ({
   lat,
   restaurant,
 }) => {
+  const navigation = useNavigation();
+
   return (
-    <TouchableOpacity className="bg-white mr-3 shadow-sm">
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("Restaurant", {
+          id,
+          imgUrl,
+          title,
+          rating,
+          genre,
+          address,
+          short_description,
+          dishes,
+          long,
+          lat,
+          restaurant,
+        });
+      }}
+      className="bg-white mr-3 shadow-sm"
+    >
       <Image
         source={{
           uri: imgUrl ? urlFor(imgUrl).url() : "",
