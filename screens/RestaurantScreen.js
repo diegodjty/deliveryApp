@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   ArrowLeftIcon,
@@ -12,6 +12,8 @@ import DishRow from "../components/DishRow";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../sanity";
 import BasketIcon from "../components/BasketIcon";
+import { useDispatch } from "react-redux";
+import { setRestaurant } from "../features/restaurantSlice";
 
 const builder = imageUrlBuilder(sanityClient);
 
@@ -19,6 +21,7 @@ function urlFor(source) {
   return builder.image(source);
 }
 const RestaurantScreen = () => {
+  const dispatch = useDispatch();
   const {
     params: {
       id,
@@ -34,6 +37,23 @@ const RestaurantScreen = () => {
       restaurant,
     },
   } = useRoute();
+
+  useEffect(() => {
+    dispatch(
+      setRestaurant({
+        id,
+        imgUrl,
+        title,
+        rating,
+        genre,
+        address,
+        short_description,
+        dishes,
+        long,
+        lat,
+      })
+    );
+  }, []);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({

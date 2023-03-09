@@ -21,7 +21,6 @@ const DishRow = ({ dish, id }) => {
   const { name, description, price, image } = dish;
   const [isPressed, setIsPressed] = useState(false);
   const dispatch = useDispatch();
-  console.log(id);
   const items = useSelector((state) => selectBasketItemsWithId(state, id));
 
   const addItemToBasket = () => {
@@ -31,7 +30,7 @@ const DishRow = ({ dish, id }) => {
   const removeItemFromBasket = () => {
     if (!items.length > 0) return;
 
-    dispatch(removeFromBasket({ id }));
+    dispatch(removeFromBasket({ id: dish.id }));
   };
   return (
     <>

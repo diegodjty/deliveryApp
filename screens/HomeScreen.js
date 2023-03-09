@@ -18,7 +18,6 @@ import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
 import sanityClient from "../sanity";
 
-// #F63549
 const HomeScreen = () => {
   const [featuredCat, setFeaturedCat] = useState([]);
   const navigation = useNavigation();
